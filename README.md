@@ -60,4 +60,10 @@ Project ini dibangun dengan menerapkan arsitektur MVC secara disiplin sesuai den
 
 - **View (`resources/views/items/...`)**: Bertanggung jawab menampilkan data (Presentation Layer) menggunakan templating engine *Blade*. Terdapat sebuah *layout utama* di `layouts/app.blade.php` yang mengatur kerangka standar HTML dan meng-include Pico.css, sementara view spesifik seperti `index`, `create`, dan `edit` mewarisi (*extend*) layout tersebut dan hanya meng-inject konten dinamisnya.
 
+## Screenshot isi proyek
+<img width="2559" height="1599" alt="image" src="https://github.com/user-attachments/assets/0e56978d-fc7f-47ad-bc1b-289a5d88d61d" />
+
+<img width="2559" height="1599" alt="image" src="https://github.com/user-attachments/assets/29c93898-131c-4f0f-b7bd-6914c93fd254" />
+
+
 Terima kasih.
