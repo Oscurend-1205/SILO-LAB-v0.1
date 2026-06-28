@@ -65,5 +65,9 @@
             </tbody>
         </table>
     </figure>
+
+    <div style="margin-top: 1rem; display: flex; justify-content: center;">
+        {{ $items->withQueryString()->links() }}
+    </div>
 </section>
 @endsection

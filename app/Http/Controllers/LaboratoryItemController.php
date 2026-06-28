@@ -11,11 +11,11 @@ class LaboratoryItemController extends Controller
     {
         $query = LaboratoryItem::query();
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $items = $query->orderBy('created_at', 'desc')->get();
+        $items = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('items.index', compact('items'));
     }
@@ -25,15 +25,22 @@ class LaboratoryItemController extends Controller
         return view('items.create');
     }
 
+    private function validateItem(Request $request, $id = null)
+    {
+        $rules = [
+            'item_code' => 'required|max:255|unique:laboratory_items,item_code' . ($id ? ',' . $id : ''),
+            'name'      => 'required|max:100',
+            'category'  => 'required|in:' . implode(',', LaboratoryItem::CATEGORIES),
+            'quantity'  => 'required|integer|min:1|max:2147483647',
+            'status'    => 'required|in:' . implode(',', LaboratoryItem::STATUSES),
+        ];
+
+        return $request->validate($rules);
+    }
+
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'item_code' => 'required|unique:laboratory_items|max:255',
-            'name'      => 'required|max:100',
-            'category'  => 'required|in:Komputer,Laptop,Jaringan,Aksesoris,Lainnya',
-            'quantity'  => 'required|integer|min:1',
-            'status'    => 'required|in:Baru,Digunakan,Rusak',
-        ]);
+        $validated = $this->validateItem($request);
 
         LaboratoryItem::create($validated);
 
@@ -47,13 +54,7 @@ class LaboratoryItemController extends Controller
 
     public function update(Request $request, LaboratoryItem $item)
     {
-        $validated = $request->validate([
-            'item_code' => 'required|max:255|unique:laboratory_items,item_code,' . $item->id,
-            'name'      => 'required|max:100',
-            'category'  => 'required|in:Komputer,Laptop,Jaringan,Aksesoris,Lainnya',
-            'quantity'  => 'required|integer|min:1',
-            'status'    => 'required|in:Baru,Digunakan,Rusak',
-        ]);
+        $validated = $this->validateItem($request, $item->id);
 
         $item->update($validated);
 

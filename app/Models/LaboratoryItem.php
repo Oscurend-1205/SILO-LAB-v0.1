@@ -13,4 +13,7 @@ class LaboratoryItem extends Model
         'quantity',
         'status',
     ];
+
+    public const CATEGORIES = ['Komputer', 'Laptop', 'Jaringan', 'Aksesoris', 'Lainnya'];
+    public const STATUSES = ['Baru', 'Digunakan', 'Rusak'];
 }

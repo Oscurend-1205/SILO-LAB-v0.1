@@ -36,11 +36,9 @@
                     <label for="category">Kategori <span style="color: red;">*</span></label>
                     <select id="category" name="category" required>
                         <option value="" disabled selected>Pilih Kategori...</option>
-                        <option value="Komputer" {{ old('category') == 'Komputer' ? 'selected' : '' }}>Komputer</option>
-                        <option value="Laptop" {{ old('category') == 'Laptop' ? 'selected' : '' }}>Laptop</option>
-                        <option value="Jaringan" {{ old('category') == 'Jaringan' ? 'selected' : '' }}>Jaringan</option>
-                        <option value="Aksesoris" {{ old('category') == 'Aksesoris' ? 'selected' : '' }}>Aksesoris</option>
-                        <option value="Lainnya" {{ old('category') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        @foreach(\App\Models\LaboratoryItem::CATEGORIES as $cat)
+                            <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
                     </select>
                     @error('category')
                         <small class="error-message">{{ $message }}</small>
@@ -49,7 +47,7 @@
                 
                 <div>
                     <label for="quantity">Kuantitas <span style="color: red;">*</span></label>
-                    <input type="number" id="quantity" name="quantity" value="{{ old('quantity', 1) }}" min="1" required>
+                    <input type="number" id="quantity" name="quantity" value="{{ old('quantity', 1) }}" min="1" max="2147483647" required>
                     @error('quantity')
                         <small class="error-message">{{ $message }}</small>
                     @enderror
@@ -60,9 +58,9 @@
                 <label for="status">Status <span style="color: red;">*</span></label>
                 <select id="status" name="status" required>
                     <option value="" disabled selected>Pilih Status...</option>
-                    <option value="Baru" {{ old('status') == 'Baru' ? 'selected' : '' }}>Baru</option>
-                    <option value="Digunakan" {{ old('status') == 'Digunakan' ? 'selected' : '' }}>Digunakan</option>
-                    <option value="Rusak" {{ old('status') == 'Rusak' ? 'selected' : '' }}>Rusak</option>
+                    @foreach(\App\Models\LaboratoryItem::STATUSES as $stat)
+                        <option value="{{ $stat }}" {{ old('status') == $stat ? 'selected' : '' }}>{{ $stat }}</option>
+                    @endforeach
                 </select>
                 @error('status')
                     <small class="error-message">{{ $message }}</small>

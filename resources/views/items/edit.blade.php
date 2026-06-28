@@ -36,12 +36,10 @@
                 <div>
                     <label for="category">Kategori <span style="color: red;">*</span></label>
                     <select id="category" name="category" required>
-                        <option value="" disabled>Pilih Kategori...</option>
-                        <option value="Komputer" {{ old('category', $item->category) == 'Komputer' ? 'selected' : '' }}>Komputer</option>
-                        <option value="Laptop" {{ old('category', $item->category) == 'Laptop' ? 'selected' : '' }}>Laptop</option>
-                        <option value="Jaringan" {{ old('category', $item->category) == 'Jaringan' ? 'selected' : '' }}>Jaringan</option>
-                        <option value="Aksesoris" {{ old('category', $item->category) == 'Aksesoris' ? 'selected' : '' }}>Aksesoris</option>
-                        <option value="Lainnya" {{ old('category', $item->category) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        <option value="" disabled {{ old('category', $item->category) ? '' : 'selected' }}>Pilih Kategori...</option>
+                        @foreach(\App\Models\LaboratoryItem::CATEGORIES as $cat)
+                            <option value="{{ $cat }}" {{ old('category', $item->category) == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
                     </select>
                     @error('category')
                         <small class="error-message">{{ $message }}</small>
@@ -50,7 +48,7 @@
                 
                 <div>
                     <label for="quantity">Kuantitas <span style="color: red;">*</span></label>
-                    <input type="number" id="quantity" name="quantity" value="{{ old('quantity', $item->quantity) }}" min="1" required>
+                    <input type="number" id="quantity" name="quantity" value="{{ old('quantity', $item->quantity) }}" min="1" max="2147483647" required>
                     @error('quantity')
                         <small class="error-message">{{ $message }}</small>
                     @enderror
@@ -61,9 +59,9 @@
                 <label for="status">Status <span style="color: red;">*</span></label>
                 <select id="status" name="status" required>
                     <option value="" disabled {{ old('status', $item->status) ? '' : 'selected' }}>Pilih Status...</option>
-                    <option value="Baru" {{ old('status', $item->status) == 'Baru' ? 'selected' : '' }}>Baru</option>
-                    <option value="Digunakan" {{ old('status', $item->status) == 'Digunakan' ? 'selected' : '' }}>Digunakan</option>
-                    <option value="Rusak" {{ old('status', $item->status) == 'Rusak' ? 'selected' : '' }}>Rusak</option>
+                    @foreach(\App\Models\LaboratoryItem::STATUSES as $stat)
+                        <option value="{{ $stat }}" {{ old('status', $item->status) == $stat ? 'selected' : '' }}>{{ $stat }}</option>
+                    @endforeach
                 </select>
                 @error('status')
                     <small class="error-message">{{ $message }}</small>
